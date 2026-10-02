@@ -10,12 +10,12 @@
     "github"
   ],
   "maintainer": {
-    "github": "@onigirito",
+    "github": "@shadowharness",
     "name": "ShadowHarness project",
     "contact": "contact@shadowharness.com"
   },
-  "repo": "https://github.com/onigirito/dkg-review-ledger",
-  "commit": "00aab4d57017975d6a3c1075830d73f0612d0dd1",
+  "repo": "https://github.com/shadowharness/dkg-review-ledger",
+  "commit": "6010429329fe819ca13f3126422dd3a69628f1f1",
   "license": "Apache-2.0",
   "requiresDkgNodeVersion": "10.0.20",
   "memoryLayers": [
@@ -39,9 +39,9 @@
     "kind": "service",
     "runtime": "docker",
     "docker": {
-      "image": "ghcr.io/onigirito/dkg-review-ledger",
-      "version": "v0.1.1",
-      "digest": "sha256:badf6cedd184f2b9d76d0726d41b223133632185387fec38905a7e8d7c8cd664"
+      "image": "ghcr.io/shadowharness/dkg-review-ledger",
+      "version": "v0.1.3",
+      "digest": "sha256:0c82a9ae7eb337ef5c4b3103d5583b3fe20a02bf34c38bec450e91ee763292f1"
     },
     "envRequired": [
       "DKG_API_URL",
@@ -68,11 +68,11 @@
     "credentialsHandled": [
       "GITHUB_TOKEN (optional; public-repository reads only)"
     ],
-    "notes": "The networkEgress wildcard covers only the exact optional operator-configured HTTPS DKG_API_URL origin; the default DKG node is local. Source-provided URLs and redirects are never followed. GitHub access is read-only and restricted to configured public repositories. Runtime uses the registered agent credential in DKG_AGENT_FILE (or an agent-scoped DKG_AUTH_TOKEN). The registration helper uses a separate node-operator token only for initial onboarding, then verifies and reuses the saved agent identity. Service readiness verifies the configured agent against the node. Other runtime credentials come from the environment and are never stored in the replay journal or sent to the browser. State changes require the operator's SERVICE_AUTH_TOKEN. Sync writes only Working Memory; an agent/operator must select an exact snapshot and digest for SHARE. The node owns Curator authorization and sealing, followed by lifecycle and Shared Memory digest readback. No PUBLISH, staking, endorsement or voting is implemented. The application has zero third-party runtime npm dependencies and no install lifecycle hooks. The separate DKG node is operator-managed. Container releases include SBOM and signed GitHub build provenance bound to the pinned source and digest. See SECURITY.md and docs/VERIFICATION.md at the pinned commit."
+    "notes": "The networkEgress wildcard covers only the exact optional operator-configured HTTPS DKG_API_URL origin; the default DKG node is local. Source-provided URLs and redirects are never followed. GitHub access is read-only and restricted to configured public repositories. Runtime uses the registered agent credential in DKG_AGENT_FILE (or an agent-scoped DKG_AUTH_TOKEN). The registration helper uses a separate node-operator token only for initial onboarding, then verifies and reuses the saved agent identity. Service readiness verifies the configured agent against the node. Other runtime credentials come from the environment and are never stored in the replay journal or sent to the browser. State changes require the operator's SERVICE_AUTH_TOKEN. Sync writes only Working Memory; an agent/operator must select an exact snapshot and digest for SHARE. The node owns Curator authorization and sealing, followed by lifecycle and Shared Memory digest readback. No PUBLISH, staking, endorsement or voting is implemented. The application has zero third-party runtime npm dependencies and no install lifecycle hooks. The separate DKG node is operator-managed. Container releases include SBOM and signed GitHub build provenance bound to the pinned source and digest. See SECURITY.md and docs/VERIFICATION.md at the pinned commit. Shared-project selection uses the reader's own scoped credential and is restricted to Shared Memory read operations; registered agent identity is verified against the node. The dedicated public deployment retains original snapshot digests and observation times after application restart."
   },
   "trustTier": "community",
-  "designBrief": "https://github.com/onigirito/dkg-review-ledger/blob/00aab4d57017975d6a3c1075830d73f0612d0dd1/DESIGN.md",
+  "designBrief": "https://github.com/shadowharness/dkg-review-ledger/blob/6010429329fe819ca13f3126422dd3a69628f1f1/DESIGN.md",
   "demo": "https://shadowharness.com/demos/dkg-review-ledger/",
   "promotionPath": "The immutable snapshot digest, source links, exact head/base commits, named Knowledge Asset and ordered RDF chunks provide stable inputs for later Curator-controlled PUBLISH into Verifiable Memory. A future adapter can attach canonical UAL and anchoring/attestation evidence while preserving the source packet. Context oracles should consume commit correspondence, source timing and memory trust state together. This release implements Working and Shared Memory; chain publication and oracle settlement are documented future stages.",
-  "fitNotes": "Engineering agents can retrieve complete source-linked evidence across sessions, preserve older observations when a branch advances, and SHARE a selected packet for team reuse. The distinct capability is an atomic, commit-aware review and CI evidence packet with moving-head refusal, lossless readback and deterministic replay; it can coexist with general GitHub ingestion. The first user is the ShadowHarness project, whose Sidera permanent memory infrastructure supports sustained autonomous engineering and verified task handoffs. Agent CLI/HTTP commands are the entry point; the live browser surface is read-only inspection. Maintainer @onigirito commits to at least six months of post-acceptance support in MAINTENANCE.md."
+  "fitNotes": "Engineering agents retrieve complete source-linked review and CI evidence across sessions, preserve immutable observations when a branch advances, and explicitly SHARE a selected packet for team reuse. A separately registered reader uses its own scoped credential and --shared-owner for Shared Memory reads of the writer project. The first user is the ShadowHarness project, whose Sidera permanent memory infrastructure supports sustained autonomous engineering and verified task handoffs. The standard CLI and authenticated HTTP routes are the entry points, with a read-only live inspection surface. Maintainer @shadowharness commits to at least six months of post-acceptance support in MAINTENANCE.md."
 }
