@@ -4,44 +4,74 @@
   "slug": "dkg-review-ledger",
   "name": "DKG Review Ledger",
   "description": "Commit-aware GitHub pull-request review and CI evidence for engineering agents. Immutable source snapshots are captured in DKG v10 Working Memory and explicitly shared through the node's Curator authority.",
-  "category": ["engineering", "agent-memory", "github"],
+  "category": [
+    "engineering",
+    "agent-memory",
+    "github"
+  ],
   "maintainer": {
     "github": "@onigirito",
     "name": "ShadowHarness project",
     "contact": "contact@shadowharness.com"
   },
   "repo": "https://github.com/onigirito/dkg-review-ledger",
-  "commit": "b571631a058c06f4d255844f0cf27ffd2188fa39",
+  "commit": "00aab4d57017975d6a3c1075830d73f0612d0dd1",
   "license": "Apache-2.0",
   "requiresDkgNodeVersion": "10.0.20",
-  "memoryLayers": ["WM", "SWM"],
-  "v10PrimitivesUsed": ["KnowledgeAsset", "ContextGraph", "Curator", "Entity"],
-  "publicInterfacesUsed": ["http-api"],
-  "targetAgents": ["generic-HTTP", "generic-CLI"],
+  "memoryLayers": [
+    "WM",
+    "SWM"
+  ],
+  "v10PrimitivesUsed": [
+    "KnowledgeAsset",
+    "ContextGraph",
+    "Curator",
+    "Entity"
+  ],
+  "publicInterfacesUsed": [
+    "http-api"
+  ],
+  "targetAgents": [
+    "generic-HTTP",
+    "generic-CLI"
+  ],
   "install": {
     "kind": "service",
     "runtime": "docker",
     "docker": {
       "image": "ghcr.io/onigirito/dkg-review-ledger",
-      "version": "v0.1.0",
-      "digest": "sha256:07c02c3b6fb4aa4a23b703e0a90be1afa907f338dca1459d7723d8786e007ee1"
+      "version": "v0.1.1",
+      "digest": "sha256:badf6cedd184f2b9d76d0726d41b223133632185387fec38905a7e8d7c8cd664"
     },
-    "envRequired": ["DKG_API_URL", "DKG_AUTH_TOKEN", "REPOSITORIES", "SERVICE_AUTH_TOKEN"],
-    "portsOpened": [8080]
+    "envRequired": [
+      "DKG_API_URL",
+      "DKG_AGENT_FILE",
+      "REPOSITORIES",
+      "SERVICE_AUTH_TOKEN"
+    ],
+    "portsOpened": [
+      8080
+    ]
   },
   "security": {
-    "networkEgress": ["api.github.com", "*"],
+    "networkEgress": [
+      "api.github.com",
+      "*"
+    ],
     "writeAuthority": [
+      "POST /api/agent/register (one-time operator-authorized onboarding; scoped application credential saved privately)",
       "POST /api/context-graph/create (local Context Graph; register:false)",
       "POST /api/knowledge-assets (WM draft; no automatic SHARE or PUBLISH)",
       "POST /api/knowledge-assets/{name}/wm/write (known draft reconciliation)",
       "POST /api/knowledge-assets/{name}/swm/share (SHARE; Curator-authority; awaitCuratorAck:true)"
     ],
-    "credentialsHandled": ["GITHUB_TOKEN (optional; public-repository reads only)"],
-    "notes": "The networkEgress wildcard covers only the exact optional operator-configured HTTPS DKG_API_URL origin; the default DKG node is local. Source-provided URLs and redirects are never followed. GitHub access is read-only and restricted to configured public repositories. Runtime credentials come from the environment and are never stored in the replay journal or sent to the browser. State changes require the operator's SERVICE_AUTH_TOKEN. Sync writes only Working Memory; an agent/operator must select an exact snapshot and digest for SHARE. The node owns Curator authorization and sealing, followed by lifecycle and Shared Memory digest readback. No PUBLISH, staking, endorsement or voting is implemented. The application has zero third-party runtime npm dependencies and no install lifecycle hooks. The separate DKG node is operator-managed. Container releases include SBOM and signed GitHub build provenance bound to the pinned source and digest. See SECURITY.md and docs/VERIFICATION.md at the pinned commit."
+    "credentialsHandled": [
+      "GITHUB_TOKEN (optional; public-repository reads only)"
+    ],
+    "notes": "The networkEgress wildcard covers only the exact optional operator-configured HTTPS DKG_API_URL origin; the default DKG node is local. Source-provided URLs and redirects are never followed. GitHub access is read-only and restricted to configured public repositories. Runtime uses the registered agent credential in DKG_AGENT_FILE (or an agent-scoped DKG_AUTH_TOKEN). The registration helper uses a separate node-operator token only for initial onboarding, then verifies and reuses the saved agent identity. Service readiness verifies the configured agent against the node. Other runtime credentials come from the environment and are never stored in the replay journal or sent to the browser. State changes require the operator's SERVICE_AUTH_TOKEN. Sync writes only Working Memory; an agent/operator must select an exact snapshot and digest for SHARE. The node owns Curator authorization and sealing, followed by lifecycle and Shared Memory digest readback. No PUBLISH, staking, endorsement or voting is implemented. The application has zero third-party runtime npm dependencies and no install lifecycle hooks. The separate DKG node is operator-managed. Container releases include SBOM and signed GitHub build provenance bound to the pinned source and digest. See SECURITY.md and docs/VERIFICATION.md at the pinned commit."
   },
   "trustTier": "community",
-  "designBrief": "https://github.com/onigirito/dkg-review-ledger/blob/b571631a058c06f4d255844f0cf27ffd2188fa39/DESIGN.md",
+  "designBrief": "https://github.com/onigirito/dkg-review-ledger/blob/00aab4d57017975d6a3c1075830d73f0612d0dd1/DESIGN.md",
   "demo": "https://shadowharness.com/demos/dkg-review-ledger/",
   "promotionPath": "The immutable snapshot digest, source links, exact head/base commits, named Knowledge Asset and ordered RDF chunks provide stable inputs for later Curator-controlled PUBLISH into Verifiable Memory. A future adapter can attach canonical UAL and anchoring/attestation evidence while preserving the source packet. Context oracles should consume commit correspondence, source timing and memory trust state together. This release implements Working and Shared Memory; chain publication and oracle settlement are documented future stages.",
   "fitNotes": "Engineering agents can retrieve complete source-linked evidence across sessions, preserve older observations when a branch advances, and SHARE a selected packet for team reuse. The distinct capability is an atomic, commit-aware review and CI evidence packet with moving-head refusal, lossless readback and deterministic replay; it can coexist with general GitHub ingestion. The first user is the ShadowHarness project, whose Sidera permanent memory infrastructure supports sustained autonomous engineering and verified task handoffs. Agent CLI/HTTP commands are the entry point; the live browser surface is read-only inspection. Maintainer @onigirito commits to at least six months of post-acceptance support in MAINTENANCE.md."
